@@ -13,7 +13,7 @@ MMU要用页表，页表存储在什么地方呢？
 2. 多级页表
 
 为每个page创建一条表单条目，怎么实现字节粒度的地址翻译呢？  
-![](./images/page_table/simple_page_table.png)
+![](./images/page_table/simple_page_table.png)  
 假设一个page的大小为4KB，对于虚拟地址，将它划分为两部分，index和offset，index用来查找page，offset对应的是一个page中的哪个字节。  
 当MMU在做地址翻译的时候，通过读取虚拟内存地址中的index可以知道物理内存中的page号，这个page号对应了物理内存中的4096个字节。之后虚拟内存地址中的offset指向了page中的4096个字节中的某一个，假设offset是12，那么page中的第12个字节被使用了。将offset加上page的起始地址，就可以得到物理内存地址。  
 
