@@ -13,7 +13,7 @@ MMU要用页表，页表存储在什么地方呢？
 2. 多级页表
 
 为每个page创建一条表单条目，怎么实现字节粒度的地址翻译呢？  
-![](./images/page_table/simple_page_table.png)  
+![](/images/page_table/simple_page_table.png)  
 假设一个page的大小为4KB，对于虚拟地址，将它划分为两部分，index和offset，index用来查找page，offset对应的是一个page中的哪个字节。  
 当MMU在做地址翻译的时候，通过读取虚拟内存地址中的index可以知道物理内存中的page号，这个page号对应了物理内存中的4096个字节。之后虚拟内存地址中的offset指向了page中的4096个字节中的某一个，假设offset是12，那么page中的第12个字节被使用了。将offset加上page的起始地址，就可以得到物理内存地址。  
 
@@ -24,7 +24,7 @@ MMU要用页表，页表存储在什么地方呢？
 多级页表   
 
 
-![](./images/page_table/3_level_pgtl.png)
+![](/images/page_table/3_level_pgtl.png)
 以[xv6](https://pdos.csail.mit.edu/6.S081/2020/xv6.html)使用的RISC-V处理器为例，使用3级页表。先来看看它是怎么完成地址翻译的。  
 我们之前提到的虚拟内存地址中的27bit的index，实际上是由3个9bit的数字组成（L2，L1，L0）。前9个bit被用来索引最高级的page directory，一个directory是4096Bytes，就跟page的大小是一样的。Directory中的一个条目被称为PTE（Page Table Entry）是64bits，所以一个Directory page有512个条目。我们用虚拟内存中index的高9bit用来索引最高一级的page directory，这样我们就能得到一个PPN，也就是物理page号。这个PPN指向了中间级的page directory。当我们在使用中间级的page directory时，我们通过虚拟内存地址中的L1部分完成索引。接下来会走到最低级的page directory，我们通过虚拟内存地址中的L0部分完成索引。在最低级的page directory中，我们可以得到对应于虚拟内存地址的物理内存地址。
 
