@@ -1,4 +1,3 @@
-#! https://zhuanlan.zhihu.com/p/370969243
 如果没有显式定义任何constructor，编译器就会隐式地生成default constructor。编译器帮我们生成的default constructor会做哪些事情呢？  
 ```cpp
 class Foo {
